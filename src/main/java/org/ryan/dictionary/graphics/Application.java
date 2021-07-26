@@ -9,6 +9,7 @@ import javax.swing.*;
 public class Application extends JFrame {
     public static Application app;
     public static int yOffset = 0;
+    public static int xOffset = 0;
 
     public Application() {
         super("Dictionary Viewer");
