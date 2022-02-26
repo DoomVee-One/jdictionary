@@ -23,6 +23,6 @@ public class MouseHandler extends MouseAdapter {
       int update = Application.xOffset + direction * SCROLL_SPEED;
       if (update > -LEFT_MARGIN) Application.xOffset = update;
     }
-    Application.app.repaint();
+    Application.getInstance().repaint();
   }
 }

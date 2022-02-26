@@ -7,15 +7,23 @@ import javax.swing.*;
 
 @Log
 public class Application extends JFrame {
-  public static Application app;
+  private static Application instance;
   public static int yOffset = 0;
   public static int xOffset = 0;
+  public static Theme theme = Theme.ONE_DARK;
 
-  public Application() {
+  public static Application getInstance() {
+    if(instance == null) {
+      instance = new Application();
+    }
+    return instance;
+  }
+
+  private Application() {
     super("Dictionary Viewer");
     setSize(400, 400);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
-    setLocationRelativeTo(null);
+    //setLocationRelativeTo(null);
     add(new DictionaryView());
     addMouseWheelListener(new MouseHandler());
     setResizable(true);
@@ -23,6 +31,6 @@ public class Application extends JFrame {
   }
 
   public static void main(String[] args) {
-    app = new Application();
+    Application.getInstance();
   }
 }

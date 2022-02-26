@@ -59,7 +59,9 @@ public class DictionaryView extends JPanel {
 
   @Override
   public void paint(Graphics g) {
-    g.clearRect(0, 0, getWidth(), getHeight());
+    Application app = Application.getInstance();
+    g.setColor(Application.theme.getBackground());
+    g.fillRect(0, 0, app.getWidth(), app.getHeight());
     if (asset != null) {
       gui.forEach(Component::repaint);
       asset.paint(g);
