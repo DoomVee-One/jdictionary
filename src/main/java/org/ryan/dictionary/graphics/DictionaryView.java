@@ -6,12 +6,7 @@ import org.ryan.dictionary.api.WordData;
 
 import javax.swing.*;
 
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Button;
-import java.awt.TextField;
+import java.awt.*;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -25,12 +20,20 @@ public class DictionaryView extends JPanel {
 
   public DictionaryView() {
     field = new TextField();
-    field.setPreferredSize(new Dimension(200, 25));
-    field.setFont(new Font("Times New Roman", Font.PLAIN, 17));
+    field.setPreferredSize(new Dimension(360, 30));
+    field.setFont(Application.theme.getFont());
     field.addActionListener(e -> search(field.getText()));
     gui.add(field);
 
-    Button button = new Button("Search");
+    String searchLabel = "Search";
+    Button button = new Button(searchLabel);
+    button.setPreferredSize(new Dimension(
+        20 * searchLabel.length(),
+        30
+    ));
+    button.setFont(Application.theme.getFont());
+    button.setBackground(Application.theme.getBackground());
+    button.setForeground(Application.theme.getHeader());
     button.addActionListener(e -> search(field.getText()));
     gui.add(button);
 
@@ -51,10 +54,11 @@ public class DictionaryView extends JPanel {
     if (data != null) {
       WordAsset asset = new WordAsset(60, 60, data);
       this.display(asset);
-      field.setEnabled(true);
     } else {
       log.severe("Something didn't work out during Search.");
+      this.display(null);
     }
+    field.setEnabled(true);
   }
 
   @Override

@@ -18,6 +18,6 @@ class WordAssetTest {
         "This is a very long line, which contains over 200 symbols, hopefully! Let's make this line longer, by continuing to type for ",
         "another 10 seconds, in order to surpass the char limit. The line, should soon be too long to be preserved in one. ");
 
-    assertLinesMatch(expected, WordAsset.wrap(longLine));
+    assertLinesMatch(expected, WordAsset.wrap(0, longLine));
   }
 }

@@ -26,7 +26,7 @@ public enum Theme {
       URL url = Resources.getResource(path);
       URI uri = url.toURI();
       File file = new File(uri);
-      this.font = Font.createFont(Font.TRUETYPE_FONT, file);
+      this.font = Font.createFont(Font.TRUETYPE_FONT, file).deriveFont(17f);
     } catch(IOException | URISyntaxException | FontFormatException e) {
       System.err.println("Error: Something happened! Check below:");
       e.printStackTrace();

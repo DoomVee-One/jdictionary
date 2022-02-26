@@ -21,7 +21,7 @@ public class Application extends JFrame {
 
   private Application() {
     super("Dictionary Viewer");
-    setSize(400, 400);
+    setSize(576, 720);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
     //setLocationRelativeTo(null);
     add(new DictionaryView());

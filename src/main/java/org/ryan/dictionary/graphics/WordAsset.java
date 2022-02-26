@@ -18,16 +18,17 @@ import java.util.ArrayList;
 public class WordAsset {
   static final int LINE_SPACING = 10;
   static int CHARS_PER_LINE = 64;
+  static final int PADDING = 20;
 
   int x, y;
   WordData data;
 
-  public static List<String> wrap(String text) {
+  public static List<String> wrap(int prefixChars, String text) {
     List<String> lines = new ArrayList<>(List.of(""));
     for (String word : text.split(" ")) {
       int last = lines.size() - 1;
       int lineSize = lines.get(last).length();
-      if (lineSize + word.length() + 1 < CHARS_PER_LINE) {
+      if (PADDING + prefixChars + lineSize + word.length() + 1 < CHARS_PER_LINE) {
         lines.set(last, lines.get(last) + word + " ");
       } else {
         lines.add(word + " ");
@@ -41,7 +42,7 @@ public class WordAsset {
     int realX = x - Application.xOffset;
     int lines = 0;
 
-    Font localFont = Application.theme.getFont().deriveFont(17f);
+    Font localFont = Application.theme.getFont();
     g.setFont(localFont);
     FontMetrics metrics = g.getFontMetrics(localFont);
     int wordPrefix = metrics.charsWidth("Word: ".toCharArray(), 0, 6);
@@ -74,47 +75,47 @@ public class WordAsset {
       g.setColor(Application.theme.getHeader());
       g.drawString(String.format("%d. Meaning", i + 1), realX, realY + (height + LINE_SPACING) * lines++);
       String header = "Part of Speech: ";
-      g.drawString(header, realX + 20, realY + (height + LINE_SPACING) * lines);
+      g.drawString(header, realX + PADDING, realY + (height + LINE_SPACING) * lines);
 
       g.setColor(Application.theme.getText());
       int prefix = metrics.charsWidth(header.toCharArray(), 0, header.length());
-      g.drawString(meanings[i].getPartOfSpeech(), prefix + realX + 20, realY + (height + LINE_SPACING) * lines++);
+      g.drawString(meanings[i].getPartOfSpeech(), prefix + realX + PADDING, realY + (height + LINE_SPACING) * lines++);
 
       WordData.WordDefinition[] definitions = meanings[i].getDefinitions();
       for (int j = 0; j < definitions.length; j++) {
         g.setColor(Application.theme.getHeader());
-        g.drawString(String.format("%d. Definition", j + 1), realX + 20, realY + (height + LINE_SPACING) * lines++);
+        g.drawString(String.format("%d. Definition", j + 1), realX + PADDING, realY + (height + LINE_SPACING) * lines++);
 
-        List<String> wraps = wrap(definitions[j].getDefinition());
+        List<String> wraps = wrap((int) ((realX + 40.0 + defPrefix) / avgWidth), definitions[j].getDefinition());
         String defHeader = "Def.: ";
-        g.drawString(defHeader, realX + 40, realY + (height + LINE_SPACING) * lines);
-
-        g.setColor(Application.theme.getText());
-        for (String line : wraps) {
-          g.drawString(line, realX + 40 + defPrefix, realY + (height + LINE_SPACING) * lines++);
-        }
+        lines = drawWrappedData(g, realY, realX, lines, defPrefix, height, wraps, defHeader);
 
         if (definitions[j].getExample() != null) {
-          wraps = wrap(definitions[j].getExample());
+          wraps = wrap((int) ((realX + 40.0 + exPrefix) / avgWidth), definitions[j].getExample());
           String exHeader = "Ex.: ";
           g.setColor(Application.theme.getHeader());
-          g.drawString(exHeader, realX + 40, realY + (height + LINE_SPACING) * lines);
-
-          g.setColor(Application.theme.getText());
-          for (String line : wraps) {
-            g.drawString(line, realX + 40 + exPrefix, realY + (height + LINE_SPACING) * lines++);
-          }
+          lines = drawWrappedData(g, realY, realX, lines, exPrefix, height, wraps, exHeader);
         }
 
         String[] synonyms = definitions[j].getSynonyms();
         if (synonyms == null || synonyms.length == 0) continue;
         g.setColor(Application.theme.getHeader());
-        g.drawString("Synonyms", realX + 40, realY + (height + LINE_SPACING) * lines++);
+        g.drawString("Synonyms", realX + 2*PADDING, realY + (height + LINE_SPACING) * lines++);
         g.setColor(Application.theme.getText());
         for (String synonym : synonyms) {
-          g.drawString("- " + synonym, realX + 60, realY + (height + LINE_SPACING) * lines++);
+          g.drawString("- " + synonym, realX + 3*PADDING, realY + (height + LINE_SPACING) * lines++);
         }
       }
     }
+  }
+
+  private int drawWrappedData(Graphics g, int realY, int realX, int lines, int exPrefix, int height, List<String> wraps, String exHeader) {
+    g.drawString(exHeader, realX + 2*PADDING, realY + (height + LINE_SPACING) * lines);
+
+    g.setColor(Application.theme.getText());
+    for (String line : wraps) {
+      g.drawString(line, realX + 2*PADDING + exPrefix, realY + (height + LINE_SPACING) * lines++);
+    }
+    return lines;
   }
 }
