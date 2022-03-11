@@ -1,0 +1,36 @@
+.root {
+    /* Color Palette (inspired by One Dark) */
+    background: #282c34;
+    accent: #61afef;
+    normal: #98c379;
+    error: #e06c75;
+
+    -fx-background-color: background;
+}
+
+.header {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-fill: accent;
+}
+
+.keyword {
+    -fx-text-fill: accent;
+    -fx-fill: accent;
+}
+
+.normal {
+    -fx-text-fill: normal;
+    -fx-fill: normal;
+}
+
+.error {
+    -fx-text-fill: error;
+    -fx-fill: error;
+}
+
+#resultPane, #resultPane > *,
+.popup {
+    -fx-border-color: background;
+    -fx-background-color: background;
+}

@@ -3,7 +3,7 @@ package org.ryan.dictionary.api;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import lombok.extern.java.Log;
+import lombok.extern.log4j.Log4j2;
 
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
 
-@Log
+@Log4j2
 public final class DictionaryProcessor {
   private DictionaryProcessor() {
   }
@@ -26,7 +26,7 @@ public final class DictionaryProcessor {
     try {
       url = new URL(API_URL + word);
     } catch (MalformedURLException e) {
-      log.severe(String.format("Invalid URL: %s", API_URL + word));
+      log.error("Invalid URL: {}", API_URL + word);
       return null;
     }
 
@@ -43,7 +43,7 @@ public final class DictionaryProcessor {
       }
       scanner.close();
     } catch (IOException e) {
-      log.severe(String.format("Could not load: %s", API_URL + word));
+      log.error("Could not load: {}", API_URL + word);
       return null;
     }
 
