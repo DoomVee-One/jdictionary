@@ -26,7 +26,8 @@
     <TextField fx:id="query"
                GridPane.columnIndex="0"
                GridPane.rowIndex="1"
-               GridPane.columnSpan="10"/>
+               GridPane.columnSpan="10"
+               onKeyPressed="#handleInput"/>
     <Button text="Search"
             fx:id="send"
             GridPane.columnIndex="10"

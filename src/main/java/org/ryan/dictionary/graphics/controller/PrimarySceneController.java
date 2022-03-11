@@ -6,6 +6,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -40,6 +42,10 @@ public class PrimarySceneController {
 
   @FXML
   public void handleSearchAction(ActionEvent actionEvent) {
+    search();
+  }
+
+  private void search() {
     String queryString = query.getText();
     log.info("Searching for {}.", queryString);
     query.setDisable(true);
@@ -71,5 +77,11 @@ public class PrimarySceneController {
     dialogScene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/styles/light.css")).toExternalForm());
     dialog.setScene(dialogScene);
     dialog.show();
+  }
+
+  public void handleInput(KeyEvent keyEvent) {
+    if(keyEvent.getCode() == KeyCode.ENTER) {
+      search();
+    }
   }
 }
